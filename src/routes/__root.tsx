@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { AppSidebar } from "@/components/AppSidebar";
 
 function NotFoundComponent() {
   return (
@@ -86,6 +87,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -113,7 +118,18 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <AppLayout />
     </QueryClientProvider>
+  );
+}
+
+function AppLayout() {
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <AppSidebar />
+      <main className="ml-60 min-h-screen p-8">
+        <Outlet />
+      </main>
+    </div>
   );
 }

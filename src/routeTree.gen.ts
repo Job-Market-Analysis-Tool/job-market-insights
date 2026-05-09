@@ -9,8 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SkillGapRouteImport } from './routes/skill-gap'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as MarketTrendsRouteImport } from './routes/market-trends'
+import { Route as JobMatchingRouteImport } from './routes/job-matching'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SkillGapRoute = SkillGapRouteImport.update({
+  id: '/skill-gap',
+  path: '/skill-gap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketTrendsRoute = MarketTrendsRouteImport.update({
+  id: '/market-trends',
+  path: '/market-trends',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JobMatchingRoute = JobMatchingRouteImport.update({
+  id: '/job-matching',
+  path: '/job-matching',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +43,83 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/job-matching': typeof JobMatchingRoute
+  '/market-trends': typeof MarketTrendsRoute
+  '/settings': typeof SettingsRoute
+  '/skill-gap': typeof SkillGapRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/job-matching': typeof JobMatchingRoute
+  '/market-trends': typeof MarketTrendsRoute
+  '/settings': typeof SettingsRoute
+  '/skill-gap': typeof SkillGapRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/job-matching': typeof JobMatchingRoute
+  '/market-trends': typeof MarketTrendsRoute
+  '/settings': typeof SettingsRoute
+  '/skill-gap': typeof SkillGapRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/job-matching'
+    | '/market-trends'
+    | '/settings'
+    | '/skill-gap'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/job-matching' | '/market-trends' | '/settings' | '/skill-gap'
+  id:
+    | '__root__'
+    | '/'
+    | '/job-matching'
+    | '/market-trends'
+    | '/settings'
+    | '/skill-gap'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  JobMatchingRoute: typeof JobMatchingRoute
+  MarketTrendsRoute: typeof MarketTrendsRoute
+  SettingsRoute: typeof SettingsRoute
+  SkillGapRoute: typeof SkillGapRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/skill-gap': {
+      id: '/skill-gap'
+      path: '/skill-gap'
+      fullPath: '/skill-gap'
+      preLoaderRoute: typeof SkillGapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/market-trends': {
+      id: '/market-trends'
+      path: '/market-trends'
+      fullPath: '/market-trends'
+      preLoaderRoute: typeof MarketTrendsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/job-matching': {
+      id: '/job-matching'
+      path: '/job-matching'
+      fullPath: '/job-matching'
+      preLoaderRoute: typeof JobMatchingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +132,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  JobMatchingRoute: JobMatchingRoute,
+  MarketTrendsRoute: MarketTrendsRoute,
+  SettingsRoute: SettingsRoute,
+  SkillGapRoute: SkillGapRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
