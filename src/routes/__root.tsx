@@ -113,7 +113,18 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <AppLayout />
     </QueryClientProvider>
+  );
+}
+
+function AppLayout() {
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <AppSidebar />
+      <main className="ml-60 min-h-screen p-8">
+        <Outlet />
+      </main>
+    </div>
   );
 }
