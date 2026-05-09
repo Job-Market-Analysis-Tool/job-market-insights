@@ -110,7 +110,7 @@ function SkillGap() {
                 {skillsHave.map((s) => (
                   <div
                     key={s}
-                    className="rounded-md border-l-4 border-success bg-background/60 px-3 py-2 text-sm text-foreground transition-shadow hover:shadow-[0_0_12px_hsl(var(--success)/0.4)]"
+                    className="rounded-md border-l-4 border-success bg-background/60 px-3 py-2 text-sm text-foreground transition-shadow hover:shadow-[0_0_14px_rgba(0,255,136,0.35)]"
                   >
                     {s}
                   </div>
@@ -127,7 +127,7 @@ function SkillGap() {
                 {skillsAcquire.map((s) => (
                   <div
                     key={s}
-                    className="rounded-md border-l-4 border-destructive bg-background/60 px-3 py-2 text-sm text-foreground transition-shadow hover:shadow-[0_0_12px_hsl(var(--destructive)/0.4)]"
+                    className="rounded-md border-l-4 border-destructive bg-background/60 px-3 py-2 text-sm text-foreground transition-shadow hover:shadow-[0_0_14px_rgba(255,68,68,0.35)]"
                   >
                     {s}
                   </div>
