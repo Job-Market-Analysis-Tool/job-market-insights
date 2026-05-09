@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SkillGapRouteImport } from './routes/skill-gap'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as MarketTrendsRouteImport } from './routes/market-trends'
 import { Route as JobMatchingRouteImport } from './routes/job-matching'
 import { Route as IndexRouteImport } from './routes/index'
@@ -23,6 +24,11 @@ const SkillGapRoute = SkillGapRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResumeRoute = ResumeRouteImport.update({
+  id: '/resume',
+  path: '/resume',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MarketTrendsRoute = MarketTrendsRouteImport.update({
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/job-matching': typeof JobMatchingRoute
   '/market-trends': typeof MarketTrendsRoute
+  '/resume': typeof ResumeRoute
   '/settings': typeof SettingsRoute
   '/skill-gap': typeof SkillGapRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/job-matching': typeof JobMatchingRoute
   '/market-trends': typeof MarketTrendsRoute
+  '/resume': typeof ResumeRoute
   '/settings': typeof SettingsRoute
   '/skill-gap': typeof SkillGapRoute
 }
@@ -60,6 +68,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/job-matching': typeof JobMatchingRoute
   '/market-trends': typeof MarketTrendsRoute
+  '/resume': typeof ResumeRoute
   '/settings': typeof SettingsRoute
   '/skill-gap': typeof SkillGapRoute
 }
@@ -69,15 +78,23 @@ export interface FileRouteTypes {
     | '/'
     | '/job-matching'
     | '/market-trends'
+    | '/resume'
     | '/settings'
     | '/skill-gap'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/job-matching' | '/market-trends' | '/settings' | '/skill-gap'
+  to:
+    | '/'
+    | '/job-matching'
+    | '/market-trends'
+    | '/resume'
+    | '/settings'
+    | '/skill-gap'
   id:
     | '__root__'
     | '/'
     | '/job-matching'
     | '/market-trends'
+    | '/resume'
     | '/settings'
     | '/skill-gap'
   fileRoutesById: FileRoutesById
@@ -86,6 +103,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   JobMatchingRoute: typeof JobMatchingRoute
   MarketTrendsRoute: typeof MarketTrendsRoute
+  ResumeRoute: typeof ResumeRoute
   SettingsRoute: typeof SettingsRoute
   SkillGapRoute: typeof SkillGapRoute
 }
@@ -104,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resume': {
+      id: '/resume'
+      path: '/resume'
+      fullPath: '/resume'
+      preLoaderRoute: typeof ResumeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/market-trends': {
@@ -134,9 +159,20 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   JobMatchingRoute: JobMatchingRoute,
   MarketTrendsRoute: MarketTrendsRoute,
+  ResumeRoute: ResumeRoute,
   SettingsRoute: SettingsRoute,
   SkillGapRoute: SkillGapRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
