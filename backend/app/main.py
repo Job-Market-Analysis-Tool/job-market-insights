@@ -1,5 +1,9 @@
-from dotenv import load_dotenv
-load_dotenv()
+import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import resume, admin
