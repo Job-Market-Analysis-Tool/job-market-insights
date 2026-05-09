@@ -54,7 +54,7 @@ export function ResumeIntelligence() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch("http://localhost:8000/resume/analyze", {
+      const response = await fetch("https://job-market-insights-production.up.railway.app/resume/analyze", {
         method: "POST",
         body: formData,
       });
