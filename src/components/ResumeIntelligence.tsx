@@ -45,12 +45,36 @@ export function ResumeIntelligence() {
     handleFiles(e.target.files);
   };
 
-  const onAnalyze = () => {
+  const onAnalyze = async () => {
+    if (!file) return;
     setAnalyzing(true);
-    setTimeout(() => {
+    setError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("http://localhost:8000/resume/analyze", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Analysis failed. Please try again.");
+      }
+
+      const data = await response.json();
+
+      // Store results in localStorage to use on skill-gap page
+      localStorage.setItem("analysisResult", JSON.stringify(data));
+
       setAnalyzing(false);
       navigate({ to: "/skill-gap" });
-    }, 2000);
+
+    } catch (err) {
+      setAnalyzing(false);
+      setError("Failed to analyze resume. Make sure the server is running.");
+    }
   };
 
   return (
