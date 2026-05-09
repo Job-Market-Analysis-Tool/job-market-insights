@@ -7,12 +7,14 @@ import {
   Settings,
   LogOut,
   Sparkles,
+  Map,
 } from "lucide-react";
 
 const navItems = [
   { to: "/", label: "Resume Intelligence", icon: FileText },
   { to: "/job-matching", label: "Job Matching", icon: Briefcase },
   { to: "/skill-gap", label: "Skill Gap Analysis", icon: BarChart2 },
+  { to: "/roadmap", label: "Career Roadmap", icon: Map },
   { to: "/market-trends", label: "Market Trends", icon: TrendingUp },
   { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
